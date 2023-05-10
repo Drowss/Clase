@@ -1,5 +1,6 @@
 import sys
 
+from cliente import Cliente
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtGui import QPixmap, QFont
@@ -195,10 +196,9 @@ class Ventana1(QMainWindow):
 
         self.fondo.setLayout(self.horizontal)
 
-    def accion_botonRegistrar(self):
         self.ventanaDialogo = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
 
-        self.ventanaDialogo.resize(300,150)
+        self.ventanaDialogo.resize(300, 150)
 
         self.botonAceptar = QDialogButtonBox.Ok
         self.opciones = QDialogButtonBox(self.botonAceptar)
@@ -216,6 +216,10 @@ class Ventana1(QMainWindow):
         self.vertical.addWidget(self.opciones)
         self.ventanaDialogo.setLayout(self.vertical)
         self.datosCorrectos = True
+
+    def accion_botonRegistrar(self):
+
+
 
         if (
             self.password.text() != self.password2.text()
@@ -289,7 +293,68 @@ class Ventana1(QMainWindow):
         self.respuesta3.setText('')
 
     def accion_botonBuscar(self):
-        pass
+        self.ventanaDialogo.setWindowTitle('Buscar preguntas de validacion')
+        if (
+            self.documento.text() == ''
+        ):
+            self.datosCorrectos = False
+
+            self.mensaje.setText('Si va a buscar las preguntas para recupperar la contrasena\nDebe primero ingresar el documento.')
+            self.ventanaDialogo.exec_()
+
+        if (
+            not self.documento.text().isnumeric()
+        ):
+            self.datosCorrectos = False
+            self.mensaje.setText("El documento debe ser numerico.\nNo ingrese letras ni caracteres especiales")
+            self.ventanaDialogo.exec_()
+            self.documento.setText('')
+
+        if (
+            self.datosCorrectos
+        ):
+            self.file = open('datos/clientes.txt', 'rb')
+            
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                lista = linea.split(';')
+                if linea == '':
+                    break
+
+                u = Cliente(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7],
+                    lista[8],
+                    lista[9],
+                    lista[10],
+                )
+                usuarios.append(u)
+
+            self.file.close()
+
+            existeDocumento = False
+
+            for u in usuarios:
+                if u.documento == self.documento.text():
+                    self.pregunta1.setText(u.pregunta1)
+                    self.pregunta2.setText(u.pregunta2)
+                    self.pregunta3.setText(u.pregunta3)
+                    existeDocumento = True
+                    break
+
+            if (
+                not existeDocumento
+            ):
+                self.mensaje.setText('No existe un usuario con este documento:\n' + self.documento.text())
+                self.ventanaDialogo.exec_()
 
     def accion_botonRecuperar(self):
         pass
