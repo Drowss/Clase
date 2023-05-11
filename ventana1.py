@@ -215,12 +215,11 @@ class Ventana1(QMainWindow):
         self.vertical.addWidget(self.mensaje)
         self.vertical.addWidget(self.opciones)
         self.ventanaDialogo.setLayout(self.vertical)
-        self.datosCorrectos = True
+
 
     def accion_botonRegistrar(self):
 
-
-
+        self.datosCorrectos = True
         if (
             self.password.text() != self.password2.text()
         ):
@@ -293,6 +292,7 @@ class Ventana1(QMainWindow):
         self.respuesta3.setText('')
 
     def accion_botonBuscar(self):
+        self.datosCorrectos = True
         self.ventanaDialogo.setWindowTitle('Buscar preguntas de validacion')
         if (
             self.documento.text() == ''
