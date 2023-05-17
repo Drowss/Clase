@@ -7,11 +7,14 @@ from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QWidget, QButtonGroup, QGridLayout, QScrollArea
 
-class Ventana2(QMainWindow):
-    def __init__(self, anterior):
-        super().__init__()
+from cliente import Cliente
 
-        self.Anterior = anterior
+
+class Ventana2(QMainWindow):
+    def __init__(self, parent=None):
+        super(Ventana2, self).__init__(parent)
+
+        #self.Anterior = anterior
         # creacion de la ventana
         self.setWindowTitle("Usuarios Registrados")
         self.setWindowIcon(QtGui.QIcon('imagenes/kiticono.jpg'))
@@ -52,12 +55,78 @@ class Ventana2(QMainWindow):
         self.scrollArea.setStyleSheet('background-color:transparent;')
         self.scrollArea.setWidgetResizable(True)
 
+        self.contenedora = QWidget()
+        self.cuadricula = QGridLayout(self.contenedora)
+        self.scrollArea.setWidget(self.contenedora)
+        self.vertical.addWidget(self.scrollArea)
+
+        self.file = open('datos/clientes.txt', 'rb')
+        self.usuarios = []
+
+        while self.file:
+            linea = self.file.readline().decode('UTF-8')
+            lista = linea.split(";")
+
+            if linea == '':
+                break
+
+            u = Cliente(
+                lista[0],
+                lista[1],
+                lista[2],
+                lista[3],
+                lista[4],
+                lista[5],
+                lista[6],
+                lista[7],
+                lista[8],
+                lista[9],
+                lista[10]
+            )
+
+            self.usuarios.append(u)
+
+        self.file.close()
+
+        self.numeroUsuarios = len(self.usuarios)
+        self.contador = 0
+
+        self.elementosPorColumna = 3
+
+        self.numerosFilas = math.ceil(self.numeroUsuarios / self.elementosPorColumna) + 1
+
+        self.botones = QButtonGroup()
+        self.botones.setExclusive(False)
+
+        for fila in range(self.numerosFilas):
+            for columna in range(self.elementosPorColumna):
+                if self.contador < self.numeroUsuarios:
+                    self.ventanaAuxiliar = QWidget()
+                    self.ventanaAuxiliar.setFixedWidth(100)
+                    self.ventanaAuxiliar.setFixedHeight(200)
+                    self.verticalCuadricula = QVBoxLayout()
+                    self.botonAccion = QPushButton(self.usuarios[self.contador].documento)
+                    self.botonAccion.setFixedWidth(90)
+                    self.botonAccion.setFixedHeight(40)
+                    self.botonAccion.setStyleSheet('background-color: #008B45;'
+                                                   'color:#FFFFFF;'
+                                                   'padding:5px;')
+                    self.verticalCuadricula.addWidget(self.botonAccion)
+                    self.botones.addButton(self.botonAccion, int(self.usuarios[self.contador].documento))
+                    self.verticalCuadricula.addStretch()
+                    self.ventanaAuxiliar.setLayout(self.verticalCuadricula)
+                    self.cuadricula.addWidget(self.ventanaAuxiliar, fila, columna)
+                    self.contador += 1
+
+        self.botones.idClicked.connect(self.metodo_accionBotones)
+
         self.fondo.setLayout(self.vertical)
 
-
+    def metodo_accionBotones(self, cedulaUsuario):
+        print(cedulaUsuario)
 
 if __name__ == '__main__':
-    app = QApplication([])
+    app = QApplication(sys.argv)
     ventana2 = Ventana2()
     ventana2.show()
     sys.exit(app.exec_())
