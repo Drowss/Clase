@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QF
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QWidget, QButtonGroup, QGridLayout, QScrollArea
 
 from cliente import Cliente
+from consulta_datos_tabular import Consulta_datos_tabular
 
 
 class Ventana2(QMainWindow):
@@ -108,8 +109,8 @@ class Ventana2(QMainWindow):
                     self.botonAccion = QPushButton(self.usuarios[self.contador].documento)
                     self.botonAccion.setFixedWidth(90)
                     self.botonAccion.setFixedHeight(40)
-                    self.botonAccion.setStyleSheet('background-color: #008B45;'
-                                                   'color:#FFFFFF;'
+                    self.botonAccion.setStyleSheet('background-color: #CCCCFF;'
+                                                   'color:black;'
                                                    'padding:5px;')
                     self.verticalCuadricula.addWidget(self.botonAccion)
                     self.botones.addButton(self.botonAccion, int(self.usuarios[self.contador].documento))
@@ -120,13 +121,37 @@ class Ventana2(QMainWindow):
 
         self.botones.idClicked.connect(self.metodo_accionBotones)
 
+        # ------------- boton tabular ------------
+        self.tabular = QPushButton("Forma Tabular")
+        self.tabular.setFixedWidth(100)
+        self.tabular.setStyleSheet('background-color: #CCCCFF;'
+                                   'color:black;'
+                                   'padding:5px;')
+        self.tabular.clicked.connect(self.metodo_accionTabular)
+        self.vertical.addWidget(self.tabular)
+
+        # -----------------Boton volver----------------
+        self.botonVolver = QPushButton("Volver")
+        self.botonVolver.setFixedWidth(100)
+        self.botonVolver.setStyleSheet('background-color: #CCCCFF;'
+                                       'color:black;'
+                                       'padding:5px;')
+        self.botonVolver.clicked.connect(self.metodo_botonVolver)
+        self.vertical.addWidget(self.botonVolver)
+
         self.fondo.setLayout(self.vertical)
 
     def metodo_accionBotones(self, cedulaUsuario):
         print(cedulaUsuario)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ventana2 = Ventana2()
-    ventana2.show()
-    sys.exit(app.exec_())
+    def metodo_accionTabular(self):
+        self.hide()
+        self.consulta_datos_tabular = Consulta_datos_tabular(self)
+        self.consulta_datos_tabular.show()
+
+    # commit clase 4 boton volver y al final otro commit con ventana 4 lista
+    def metodo_botonVolver(self):
+        self.hide()
+        self.Anterior.show()
+
+

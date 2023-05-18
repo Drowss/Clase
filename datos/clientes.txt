@@ -1,2 +1,5 @@
 a;a;a;1234;a;b;b;b;b;b;b
 l;l;l;4321;l;l;l;l;l;l;l
+Esneider Giraldo;Drow;hola12;1000636407;dajdsqg@gmail.com;nombre gato;no tengo;color favorito;amarillo;como estas?;bien
+ana maria;dora;hola12;1000632124;dajdsdasqg@gmail.com;nombre gato;no tengo;color favorito;amarillo;como estas?;bien
+cristal;honguito;hola12;1000632153;dajdsdasqg@gmail.com;nombre gato;no tengo;color favorito;amarillo;como estas?;bien
