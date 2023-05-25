@@ -1,0 +1,4 @@
+Esneider Giraldo;Drow;1234;1000636703;esneider@elpoli.edu.co;color;verde;ciudad;medellin;nombre;no se;
+Esneider Giraldo;Drows;1234;1000636241;esneider@elpoli.edu.co;color;amarillo;ciudad;pereira;nombre;no se;
+Esneider Giraldo;Ty6te12e043dx;1234;1000631756;esneider@elpoli.edu.co;color;rosado;ciudad;cali;nombre;jaime isaza cadavid;
+Esneider Giraldo;Ty6te12e043dx;1234;1000635156;esneider@elpoli.edu.co;color;rosado;ciudad;cali;nombre;camilo;
